@@ -1,0 +1,26 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Python files
+*.py text eol=lf
+*.pyw text eol=lf
+
+# Shell scripts
+*.sh text eol=lf
+
+# Config files
+*.ini text eol=lf
+*.cfg text eol=lf
+*.toml text eol=lf
+*.yaml text eol=lf
+*.yml text eol=lf
+*.json text eol=lf
+
+# Documentation
+*.md text eol=lf
+*.txt text eol=lf
+*.rst text eol=lf
+
+# Mark generated migration files as linguist-generated to hide them from diffs
+**/migrations/*.py linguist-generated=true
+
