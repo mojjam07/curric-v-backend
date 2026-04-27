@@ -33,6 +33,9 @@ class User(AbstractUser):
     )
     referral_count = models.PositiveIntegerField(default=0)
 
+    # Social share tracking (prevents infinite exploit)
+    shared_platforms = models.JSONField(default=list, blank=True)
+
     def save(self, *args, **kwargs):
         if not self.referral_code:
             self.referral_code = self._generate_referral_code()

@@ -10,6 +10,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+import sys
 from datetime import timedelta
 from dotenv import load_dotenv
 import dj_database_url
@@ -28,7 +29,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.environ.get('SECRET_KEY', 'django-insecure-s75qr93va5=l4yjq$^8cu6z!p_@zsidp_p&$*z7pl&6t(kae8p')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', 'True').lower() in ('false', '0', 'no')
+# Auto-detect Django dev server (runserver) and force DEBUG=True
+RUNNING_DEVSERVER = len(sys.argv) > 1 and sys.argv[1] == 'runserver'
+DEBUG = RUNNING_DEVSERVER or os.environ.get('DEBUG', 'False').lower() in ('true', '1', 'yes')
 
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
@@ -171,6 +174,17 @@ REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
     ),
+    'DEFAULT_THROTTLE_CLASSES': [
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle',
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '20/minute',
+        'user': '60/minute',
+        'login': '10/minute',
+        'register': '5/minute',
+        'optimize': '10/minute',
+    },
 }
 
 # Frontend URL for social sharing links
