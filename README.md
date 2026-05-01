@@ -45,13 +45,28 @@ DATABASE_URL=postgres://user:password@localhost:5432/dbname
 # OpenAI (for AI suggestions)
 OPENAI_API_KEY=sk-your-openai-key
 
-# Stripe
-STRIPE_SECRET_KEY=sk_test_...
-STRIPE_PUBLISHABLE_KEY=pk_test_...
-STRIPE_WEBHOOK_SECRET=whsec_...
-STRIPE_PRICE_ID=price_...
+# Stripe - Get test keys from https://dashboard.stripe.com/test/apikeys
+STRIPE_SECRET_KEY=sk_test_...           # From API Keys page
+STRIPE_PUBLISHABLE_KEY=pk_test_...      # From API Keys page
+STRIPE_WEBHOOK_SECRET=whsec_...         # From Webhooks page (see below)
+STRIPE_PRICE_ID=price_...               # From Products/Prices page (see below)
 
-# Frontend URL (for CORS and redirects)
+# To get STRIPE_WEBHOOK_SECRET:
+# 1. Go to https://dashboard.stripe.com/test/webhooks
+# 2. Click "Add endpoint"
+# 3. Enter URL: http://your-domain/api/subscription/webhook/
+# 4. Select events: checkout.session.completed, customer.subscription.updated, customer.subscription.deleted
+# 5. Click "Add endpoint" and copy the "Signing secret" (whsec_...)
+
+# To get STRIPE_PRICE_ID:
+# 1. Go to https://dashboard.stripe.com/test/products
+# 2. Click "Add product" - enter name (e.g., "Premium Plan")
+# 3. Click "Add price" - set amount (e.g., $9.99/month), click "Save"
+# 4. Copy the price ID (starts with price_...) from the product page
+
+
+
+# Frontend URL
 FRONTEND_URL=http://localhost:5173
 CORS_ALLOWED_ORIGINS=http://localhost:5173
 ```
